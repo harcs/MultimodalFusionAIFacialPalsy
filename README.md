@@ -11,6 +11,8 @@ The images in this repository were taken from the internet. These are the result
 ```
 Prediction for input_images\palsy1.jpg: Palsy
 
+Prediction for input_images\palsy10.jpg: Palsy
+
 Prediction for input_images\palsy2.jpg: Healthy
 
 Prediction for input_images\palsy3.png: Palsy
@@ -24,6 +26,8 @@ Prediction for input_images\palsy6.jpeg: Palsy
 Prediction for input_images\palsy7.jpg: Palsy
 
 No face detected by Mediapipe for input_images\palsy8.png
+
+Prediction for input_images\palsy9.jpg: Palsy
 ```
 
 # Extra Notes on Input Images
