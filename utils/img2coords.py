@@ -52,7 +52,7 @@ class ImageToCoordinatesTransform(object):
 
     def run_inference(self, image):
     # STEP 1: Create an FaceLandmarker object.
-        base_options = python.BaseOptions(model_asset_path='utils/face_landmarker_v2_with_blendshapes.task', delegate= "GPU")
+        base_options = python.BaseOptions(model_asset_path='utils/face_landmarker_v2_with_blendshapes.task', delegate= "CPU")
         options = vision.FaceLandmarkerOptions(base_options=base_options, output_face_blendshapes=True,
                                             output_facial_transformation_matrixes=True, num_faces=1)
         detector = vision.FaceLandmarker.create_from_options(options)

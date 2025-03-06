@@ -69,7 +69,6 @@ class MLPMixerWrapper(nn.Module):
         super(MLPMixerWrapper, self).__init__()
         self.mlp_mixer = timm.create_model('mixer_b16_224.miil_in21k_ft_in1k', pretrained=True)
         self.mlp_mixer.head = nn.Linear(in_features=768, out_features=2, bias=True)
-        print(self.mlp_mixer)
 
     def forward(self, x):
         x = self.mlp_mixer(x)
@@ -83,26 +82,6 @@ class MLPMixerWrapper(nn.Module):
         # Unfreeze the last fully connected layer
         for param in self.mlp_mixer.head.parameters():
             param.requires_grad = True
-
-# class EarlyFusionModel(nn.Module):
-#     def __init__(self):
-#         super(EarlyFusionModel, self).__init__()
-#         self.layers = nn.Sequential(
-#             nn.Linear(571, 64),
-#             nn.ReLU(),
-#             nn.Dropout(0.2),
-#             nn.Linear(64, 32),
-#             nn.ReLU(),
-#             nn.BatchNorm1d(32),
-#             nn.Linear(32, 10),
-#             nn.ReLU(),
-#             nn.Dropout(0.2),
-#             nn.Linear(10, 2)
-#         )
-
-#     def forward(self, x):
-#         x = self.layers(x)
-#         return x
 
 class EarlyFusionModel(nn.Module):
     def __init__(self):

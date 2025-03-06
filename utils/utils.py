@@ -8,13 +8,14 @@ def preprocess_img(img):
     transforms.Resize((256, 256)),
     transforms.Grayscale(num_output_channels=3),
     transforms.TenCrop(224),
-    transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),  # Convert crops to tensor
-    transforms.Lambda(lambda crops: torch.stack([transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(crop) for crop in crops]))  # Normalize crops
+    transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
+    transforms.Lambda(lambda crops: torch.stack([transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(crop) for crop in crops]))
     ])
     transformed_img = test_transforms(img)
-    return transformed_img
+    print(transformed_img.shape)
+    return transformed_img.unsqueeze(0)
 
-def crop_face(img, coords_tensor):
+def crop_face(img, coords_tensor, filename):
     """
     This function plots coordinates directly onto an image with a human face
     and returns an image with the plotted coordinates
@@ -31,6 +32,7 @@ def crop_face(img, coords_tensor):
 
     # Crop the image
     cropped_img = img.crop(crop_rectangle)
+    cropped_img.save(f"cropped_images/{filename}.png") # Save the cropped image for debugging
 
     return cropped_img
 
