@@ -1,7 +1,6 @@
 import os
 import torch
 import torchvision.transforms as transforms
-from PIL import Image
 
 def preprocess_img(img):
     test_transforms=transforms.Compose([

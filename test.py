@@ -50,6 +50,7 @@ model = EarlyFusionModel()
 model_state_dict = torch.load(f"weights/early_fusion_fcn_rgb_mixer_val_0_training_weights_epoch_9.pth", map_location=torch.device(device))
 model.load_state_dict(model_state_dict)
 model = model.to(device).eval()
+results_list = []
 
 # -----------
 # Process each image in input_images
@@ -86,4 +87,7 @@ for file in all_files:
     output = model(combined_tensor)
     _, predicted = torch.max(output, 1)
     prediction = "Palsy" if predicted == 1 else "Healthy"
-    print(f"Prediction for {file}: {prediction}")
+    results_list.append(f"Prediction for {file}: {prediction}")
+
+for i in range(len(results_list)):
+    print(results_list[i])

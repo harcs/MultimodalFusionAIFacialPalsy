@@ -18,7 +18,6 @@ class ImageToCoordinatesTransform(object):
         coordinates = torch.tensor(coordinates, dtype=torch.float32)
         coordinates[:, 0] *= width
         coordinates[:, 1] *= height
-        # return coordinates_flattened
         return coordinates
     
     def __repr__(self):
@@ -39,20 +38,12 @@ class ImageToCoordinatesTransform(object):
         # print(detection_result.face_landmarks[0])
         xy_coords = [(face_landmark.x, face_landmark.y) for face_landmark in detection_result.face_landmarks[0]]
         xy_coords = torch.tensor(xy_coords)
-        print(xy_coords.shape)
-
-        # xy_coords = []
-        # for coord in coordinate_info.selected_features:
-        #     face_landmark = detection_result.face_landmarks[0][coord]
-        #     xy_coords.append((face_landmark.x, face_landmark.y))
-        # print(len(xy_coords))
-        # xy_coords = torch.tensor(xy_coords)
 
         return xy_coords
 
     def run_inference(self, image):
     # STEP 1: Create an FaceLandmarker object.
-        base_options = python.BaseOptions(model_asset_path='utils/face_landmarker_v2_with_blendshapes.task', delegate= "CPU")
+        base_options = python.BaseOptions(model_asset_path='utils/face_landmarker_v2_with_blendshapes.task', delegate= "GPU")
         options = vision.FaceLandmarkerOptions(base_options=base_options, output_face_blendshapes=True,
                                             output_facial_transformation_matrixes=True, num_faces=1)
         detector = vision.FaceLandmarker.create_from_options(options)

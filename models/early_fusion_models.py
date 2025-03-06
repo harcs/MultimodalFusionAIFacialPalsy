@@ -1,25 +1,6 @@
 from torch import nn
 from torchvision import models
-
-class FCN_Blendshapes(nn.Module):
-    def __init__(self):
-        super(FCN_Blendshapes, self).__init__()
-        self.layers = nn.Sequential(
-            nn.Linear(52, 64), # Saved 0
-            nn.ReLU(), # 1
-            nn.Dropout(0.5),
-            nn.Linear(64, 32), # Saved V2
-            nn.ReLU(),
-            nn.BatchNorm1d(32) # Saved V3 5
-            # nn.Linear(32, 10), # Saved V1
-            # nn.ReLU(),
-            # nn.Linear(10, 2), # Saved
-            # nn.Sigmoid()
-        )
-
-    def forward(self, x):
-        x = self.layers(x)
-        return x
+import timm
 
 class FCN_ManualFeats(nn.Module):
     def __init__(self):
@@ -31,10 +12,6 @@ class FCN_ManualFeats(nn.Module):
             nn.Linear(64, 32), # Saved
             nn.ReLU(),
             nn.BatchNorm1d(32), # Saved
-            # nn.Linear(32, 10), # Saved
-            # nn.ReLU(),
-            # nn.Linear(10, 2), # Saved
-            # nn.Sigmoid()
         )
 
     def forward(self, x):
@@ -60,9 +37,6 @@ class ResNet50(nn.Module):
     def forward(self, x):
         x = self.resnet(x)
         return x
-
-from torch import nn
-import timm
 
 class MLPMixerWrapper(nn.Module):
     def __init__(self):

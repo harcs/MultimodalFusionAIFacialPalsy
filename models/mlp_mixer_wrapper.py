@@ -6,7 +6,6 @@ class MLPMixerWrapper(nn.Module):
         super(MLPMixerWrapper, self).__init__()
         self.mlp_mixer = timm.create_model('mixer_b16_224.miil_in21k_ft_in1k', pretrained=True)
         self.mlp_mixer.head = nn.Linear(in_features=768, out_features=2, bias=True)
-        print(self.mlp_mixer)
 
     def forward(self, x):
         x = self.mlp_mixer(x)

@@ -7,12 +7,9 @@ import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import numpy as np
-# from coordinate_info import mesh_annotations
-import math
 import math_utils
 import cv2
-from PIL import Image, ImageDraw, ImageFont
-from coordinate_info import mesh_annotations, selected_features
+from utils.coordinate_info import mesh_annotations
 from sklearn.metrics.pairwise import euclidean_distances
 
 class ImageToManualFeaturesTransform(object):
@@ -30,7 +27,7 @@ class ImageToManualFeaturesTransform(object):
         return "3D facial landmarks extracted from image"
     
     def run_inference(self, image):
-    # STEP 1: Create an FaceLandmarker object.
+        # STEP 1: Create an FaceLandmarker object.
         base_options = python.BaseOptions(model_asset_path='utils/face_landmarker_v2_with_blendshapes.task', delegate= "CPU")
         options = vision.FaceLandmarkerOptions(base_options=base_options, output_face_blendshapes=True,
                                             output_facial_transformation_matrixes=True, num_faces=1)
@@ -48,24 +45,27 @@ class ImageToManualFeaturesTransform(object):
         detection_result = self.run_inference(image)
         detection_result = detection_result.face_landmarks[0]
 
+        # --------------
         # Get the coordinates for each feature group
+        # --------------
         for feature in self.mesh_annotations.keys():
             coords_obj = detection_result[self.mesh_annotations[feature][0]]
             self.coordinates[feature] = [coords_obj.x, coords_obj.y]
 
+        # --------------
         # Calculate the rotation matrix
+        # --------------
         angle_for_rotation = math_utils.calculate_angle(self.coordinates[48], self.coordinates[49])
         rotation_matrix = cv2.getRotationMatrix2D(np.array(self.coordinates[48]), angle_for_rotation, 1)
 
+        # --------------
         # Rotate all coordinates
-        # Get the coordinates for each feature group
+        # --------------
         for feature in self.mesh_annotations.keys():
             augmented_coords = np.array([self.coordinates[feature]])
             rotated_coords = cv2.transform(augmented_coords[None, :, :], rotation_matrix)[0]
             self.coordinates[feature] = rotated_coords[0]
 
-        self.draw_coordinates_on_image(image, [self.coordinates[key] for key in self.coordinates])
-        print(f"37 is {self.coordinates[37]}, 43 is {self.coordinates[43]}")
         # ----------------------------------------------------------------------------
         # Calculate manual features
         # ----------------------------------------------------------------------------
@@ -83,24 +83,6 @@ class ImageToManualFeaturesTransform(object):
         feature_tensor = eyebrow_feats + eye_feats + mouth_feats + nose_feats + combined_feats
         feature_tensor = torch.tensor(feature_tensor)
         return feature_tensor
-
-    def draw_coordinates_on_image(self, image, coords):
-        image = Image.fromarray(image.numpy_view())
-        draw = ImageDraw.Draw(image)
-        colors = ["red"]#["#C1E7E3"] # more colours can be added to this list
-
-        # Draw circles for each coordinate point
-        radius = 2
-        for i in range(len(coords)):
-            if i in selected_features:
-                print(i)
-                coord = coords[i]
-                coord = [coord[0] * image.size[0], coord[1] * image.size[1]]
-                x, y = map(int, coord)  # Convert coordinates to integers
-                color = colors[i % len(colors)]  # Cycle through colors
-                draw.ellipse((x - radius, y - radius, x + radius, y + radius), fill=color, outline=color)
-        # Save the image
-        # image.save("new_image_with_coords.png")
 
     def calculate_a_k_distances(self):
         self.dist_a = abs(self.coordinates[48][0] - self.coordinates[49][0])

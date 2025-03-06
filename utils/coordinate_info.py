@@ -56,17 +56,8 @@ mesh_annotations = {
   48: [127], 49: [356], # side of face
   50: [152] # bottom of chin
 }
-# for key in mesh_annotations.keys():
-#   mesh_annotations[key].sort()
-
-print(f"After sorting {mesh_annotations}")
 
 selected_features = []
-
 for key in mesh_annotations.keys():
   selected_features += mesh_annotations[key]
-
-print(selected_features)
-print("**********************")
-
 selected_features = set(selected_features) # This is to ensure coordinates used in different features are not repeated
