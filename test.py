@@ -61,7 +61,10 @@ for file in all_files:
 
     # First crop the image to fit the face
     face_coords = img2coords_trm(img)
-    cropped_img = procutils.crop_face(img, face_coords, filename=os.path.splitext(os.path.basename(file))[0])
+    try:
+        cropped_img = procutils.crop_face(img, face_coords, filename=os.path.splitext(os.path.basename(file))[0])
+    except Exception as e:
+        results_list.append(f"No face detected by Mediapipe for {file}")
 
     trfm_img_for_rgb = procutils.preprocess_img(cropped_img)
 
