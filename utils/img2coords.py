@@ -9,6 +9,9 @@ from mediapipe.tasks.python import vision
 import numpy as np
 
 class ImageToCoordinatesTransform(object):
+    """
+    This is a transform that takes in a PIL image and outputs a tensor of selected 2D xy face landmark coordinates
+    """
     def __init__(self):
         pass
 
@@ -21,7 +24,7 @@ class ImageToCoordinatesTransform(object):
         return coordinates
     
     def __repr__(self):
-        return "3D facial landmarks extracted from image"
+        return "Facial landmarks extracted from image"
 
     def image_to_landmark_coords(self, image):
         img_np = np.asarray(image)
@@ -35,7 +38,6 @@ class ImageToCoordinatesTransform(object):
         detection_result = self.run_inference(image)
 
         # Get all coordinates
-        # print(detection_result.face_landmarks[0])
         xy_coords = [(face_landmark.x, face_landmark.y) for face_landmark in detection_result.face_landmarks[0]]
         xy_coords = torch.tensor(xy_coords)
 

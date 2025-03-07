@@ -19,7 +19,8 @@ https://github.com/tensorflow/tfjs-models/blob/838611c02f51159afdd77469ce67f0e26
 
 mesh_annotations = {
   # ---------------------------------------------------------------------------------------------------------
-  # Coordinate Mappings from Mediapipe Model to their corresponding indices in the Manual Features paper (e.g. the coordinate labelled as 70 in the Mediapipe model may be labelled as 1 in the manual feature implementation)
+  # Coordinate Mappings from Mediapipe Model to their corresponding indices in the Manual Features paper 
+  # (e.g. the coordinate labelled as 70 in the Mediapipe model may be labelled as 1 in the manual feature implementation)
   # ---------------------------------------------------------------------------------------------------------
   0: [70], 1: [63], 2: [105], 3: [66], 4: [55], # right eyebrow 0-4
   5: [285], 6: [296], 7: [334], 8: [293], 9: [300], # left eyebrow 5-9
