@@ -7,7 +7,7 @@ import mediapipe as mp
 from mediapipe.tasks import python
 from mediapipe.tasks.python import vision
 import numpy as np
-import math_utils
+import utils.math_utils as math_utils
 import cv2
 from utils.coordinate_info import mesh_annotations
 from sklearn.metrics.pairwise import euclidean_distances
