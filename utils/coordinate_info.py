@@ -19,27 +19,7 @@ https://github.com/tensorflow/tfjs-models/blob/838611c02f51159afdd77469ce67f0e26
 
 mesh_annotations = {
   # ---------------------------------------------------------------------------------------------------------
-  # These are the selected features
-  # ---------------------------------------------------------------------------------------------------------
-  "rightEyebrowFull": [156, 70, 63, 105, 66, 107, 55, 193, 35, 124, 46, 53, 52, 65],
-  "leftEyebrowFull": [383, 300, 293, 334, 296, 336, 285, 417, 265, 353, 276, 283, 282, 295],
-
-  "rightInnerCanthus": [173],
-  "leftInnerCanthus": [398],
-
-  "leftLipCorners": [291, 308, 409, 375],
-  "rightLipCorners": [61, 78, 185, 146],
-  "upperLipMidpoint": [37, 267],
-  "centreUpperLipMidpoint": [0],
-  "leftInnerCanthusAndUpperLipMidpoint": [398, 267],
-  "rightEyeBox": [356],
-  "leftEyeBox": [127],
-  "bottomOfChin": [152],
-  "leftFace": [127],
-  "rightFace": [356],
-  "topFace": [10],
-  # ---------------------------------------------------------------------------------------------------------
-  # Second Attempt
+  # Coordinate Mappings from Mediapipe Model to their corresponding indices in the Manual Features paper (e.g. the coordinate labelled as 70 in the Mediapipe model may be labelled as 1 in the manual feature implementation)
   # ---------------------------------------------------------------------------------------------------------
   0: [70], 1: [63], 2: [105], 3: [66], 4: [55], # right eyebrow 0-4
   5: [285], 6: [296], 7: [334], 8: [293], 9: [300], # left eyebrow 5-9
@@ -60,4 +40,4 @@ mesh_annotations = {
 selected_features = []
 for key in mesh_annotations.keys():
   selected_features += mesh_annotations[key]
-selected_features = set(selected_features) # This is to ensure coordinates used in different features are not repeated
+selected_features = set(selected_features) # This is to ensure coordinates used in different features are not repeated. This returns a set of all coordinates
