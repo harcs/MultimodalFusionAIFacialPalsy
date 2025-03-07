@@ -3,12 +3,15 @@ import torch
 import torchvision.transforms as transforms
 
 def preprocess_img(img):
+    """
+    This function applies a transformation to test images
+    """
     test_transforms=transforms.Compose([
-    transforms.Resize((256, 256)),
-    transforms.Grayscale(num_output_channels=3),
-    transforms.TenCrop(224),
-    transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
-    transforms.Lambda(lambda crops: torch.stack([transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(crop) for crop in crops]))
+        transforms.Resize((256, 256)),
+        transforms.Grayscale(num_output_channels=3),
+        transforms.TenCrop(224),
+        transforms.Lambda(lambda crops: torch.stack([transforms.ToTensor()(crop) for crop in crops])),
+        transforms.Lambda(lambda crops: torch.stack([transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])(crop) for crop in crops]))
     ])
     transformed_img = test_transforms(img)
     print(transformed_img.shape)
@@ -16,8 +19,7 @@ def preprocess_img(img):
 
 def crop_face(img, coords_tensor, filename):
     """
-    This function plots coordinates directly onto an image with a human face
-    and returns an image with the plotted coordinates
+    This function uses provided coordinates to crop the image to fit the subject's face
     """
     try:
         width, height = img.size
