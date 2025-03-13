@@ -1,5 +1,5 @@
 # MultimodalAIFacialPalsy
-This is the code repository for A Multimodal Fusion Model Leveraging Handcrafted Features and MLP Mixer and Handcrafted Features-based Deep Learning Networks for Facial Palsy Detection
+This is the code repository for "A Multimodal Fusion Model Leveraging Handcrafted Features and MLP Mixer and Handcrafted Features-based Deep Learning Networks for Facial Palsy Detection", published in the DSFA Track of The 29th Pacific-Asia Conference on Knowledge Discovery and Data Mining
 
 # Results
 ![results](/results_table.png)
